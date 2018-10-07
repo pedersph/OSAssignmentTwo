@@ -6,26 +6,30 @@ public class EchoServer {
 	public static void main(String[] args) {
 		boolean open = true;
 		try {
-			ServerSocket socket = new ServerSocket(9000);
+			ServerSocket listener = new ServerSocket(8008);
+			
 			
 			while(open) {
-				Socket request = socket.accept();
+				Socket incoming = listener.accept();
+				BufferedReader userMessage = new BufferedReader(new InputStreamReader(incoming.getInputStream()));
+				PrintWriter serverMessage = new PrintWriter(new OutputStreamWriter(incoming.getOutputStream()));
 				
-				BufferedReader message = new BufferedReader(new InputStreamReader(request.getInputStream()));
-				PrintWriter echo = new PrintWriter(new OutputStreamWriter(request.getOutputStream()));
-				while(open) {
-					String mess = message.readLine();
-					if(mess.length() <= 0) {
-						break;		
-					}else {
-						System.out.println("Server: "+mess);
-					}
+				
+				
+				String message;
+				while((message = userMessage.readLine()) != null){
+					System.out.println(message);
+					serverMessage.println(message);
 				}
-				request.close();
+				userMessage.close();
+				serverMessage.close();
+				incoming.close();
 			}
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		
 			
 		}
 		
