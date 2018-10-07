@@ -22,12 +22,16 @@ public class EchoClient {
 			Scanner userInput = new Scanner(System.in);
 			BufferedReader message = new BufferedReader(new InputStreamReader(sender.getInputStream()));
 			PrintWriter out = new PrintWriter(new OutputStreamWriter(sender.getOutputStream()));
-			
-			while(!userInput.hasNextLine()) {
-				String str = userInput.nextLine();
+			String str = userInput.nextLine();
+			String close = ".";
+			while(!str.equals(close)) {
+				//String str = userInput.nextLine();
 				out.println(str);
-				System.out.println(message.readLine());
+				//out.write(str);
+				out.flush();
+				
 			}
+			System.out.println(message.readLine());
 			message.close();
 			out.close();
 			sender.close();
