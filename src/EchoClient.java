@@ -23,15 +23,13 @@ public class EchoClient {
 			BufferedReader message = new BufferedReader(new InputStreamReader(sender.getInputStream()));
 			PrintWriter out = new PrintWriter(new OutputStreamWriter(sender.getOutputStream()));
 			String str = userInput.nextLine();
-			String close = ".";
-			while(!str.equals(close)) {
+			
+			while(!userInput.hasNextLine()) {
 				//String str = userInput.nextLine();
 				out.println(str);
-				//out.write(str);
 				out.flush();
-				
+				System.out.println(message.readLine());
 			}
-			System.out.println(message.readLine());
 			message.close();
 			out.close();
 			sender.close();
